@@ -20,8 +20,12 @@ function transform_half(targetClass) {
 
 //下記がメインロジック
 function calcChangeByInputs(total, pay) {
-  const err = [];
+  let err = {
+    bool: false,
+    mes: [],
+  };
   let result = {
+    bool: true,
     change: 0,
     totalOfCoins: [],
     coins: [
@@ -58,8 +62,9 @@ function calcChangeByInputs(total, pay) {
     ],
   };
 
-  if (total > pay) err.push("支払額が足りません");
-  //整数で入力してください
+  if (total > pay) err.mes.push("支払額が足りません");
+  if (!Number.isInteger(total) || !Number.isInteger(pay))
+    err.mes.push("整数で入力してください");
 
   //絶対値で取得
   result.change = Math.abs(total - pay);
@@ -76,8 +81,12 @@ function calcChangeByInputs(total, pay) {
   }
   //合計枚数を出す
   result.totalOfCoins = result.totalOfCoins.reduce((a, b) => a + b, 0);
-
-  return result;
+  if (err.mes.length > 0) {
+    console.log(err.mes);
+    return err;
+  } else {
+    return result;
+  }
 }
 
 //htmlを生成
@@ -92,6 +101,7 @@ function createResult(obj) {
   });
 
   let text =
+    "<div id='result-inner'>" +
     "<h3>結果</h3>" +
     "<p>お釣り: <span>" +
     obj.change +
@@ -101,7 +111,8 @@ function createResult(obj) {
     "</p></div>" +
     "<p>合計: <span>" +
     obj.totalOfCoins +
-    "枚</span></p>";
+    "枚</span></p>" +
+    "<div>";
 
   return text;
 }
@@ -112,7 +123,23 @@ function insert(html) {
   parent.insertAdjacentHTML("afterbegin", html);
 }
 
-console.log(calcChangeByInputs(298, 670));
+//既に挿入さてれているhtmlの削除
+function removeAlreadyHtml() {
+  const parent = document.getElementById("result");
+  const inner = document.getElementById("result-inner");
+  if (inner != null) {
+    parent.removeChild(inner);
+  }
+}
+
+function checkEmpty(tgt1, tgt2) {
+  if (tgt1 == null || tgt2 == null || tgt1 == "" || tgt2 == "") {
+    const mes = "数字を入力してください";
+    return mes;
+  } else {
+    return true;
+  }
+}
 
 //実行
 window.onload = function () {
@@ -120,11 +147,16 @@ window.onload = function () {
   const btn = document.getElementById("btn");
 
   btn.addEventListener("click", () => {
-    const total = document.getElementById("total").value;
-    const pay = document.getElementById("pay").value;
-
-    console.log(total);
-    console.log(pay);
+    removeAlreadyHtml();
+    const total = Number(document.getElementById("total").value);
+    const pay = Number(document.getElementById("pay").value);
+    const result = calcChangeByInputs(total, pay);
+    console.log(result.bool);
+    if (result.bool == true && checkEmpty(total, pay) == true) {
+      insert(createResult(result));
+    } else {
+      //エラーメッセージ を出す処理
+      //疲れたので気が向いたら作ります。
+    }
   });
-  // insert(createResult(calcChangeByInputs(298, 670)));
 };
