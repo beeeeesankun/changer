@@ -1,0 +1,32 @@
+html {
+  font-size: 62.5%;
+}
+body {
+  background: #eee;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+.wrap {
+  width: clamp(30rem, 50%, 60rem);
+  margin: 10rem auto;
+}
+
+.inputs {
+  background: rgb(50 193 133 / 70%);
+  padding: 6rem 4rem;
+  text-align: center;
+  color: #fff;
+}
+.input {
+  display: flex;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+.legend {
+  margin: 0 4rem 0 0;
+}
+
+.result {
+  background: #fff;
+}

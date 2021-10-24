@@ -21,3 +21,58 @@ function transform_half(targetClass) {
 window.onload = function () {
   transform_half("half");
 };
+
+function calcChangeByInputs(total, pay) {
+  const err = [];
+  let result = {
+    change: 0,
+    totalOfCoins: 0,
+    coins: [
+      {
+        name: "500円",
+        val: 500,
+        numberOfCoins: 0,
+      },
+      {
+        name: "100円",
+        val: 100,
+        numberOfCoins: 0,
+      },
+      {
+        name: "50円",
+        val: 50,
+        numberOfCoins: 0,
+      },
+      {
+        name: "10円",
+        val: 10,
+        numberOfCoins: 0,
+      },
+      {
+        name: "5円",
+        val: 5,
+        numberOfCoins: 0,
+      },
+      {
+        name: "1円",
+        val: 1,
+        numberOfCoins: 0,
+      },
+    ],
+  };
+
+  if (total > pay) err.push("支払額が足りません");
+  //整数で入力してください
+
+  result.change = Math.abs(total - pay);
+  let remainder = result.change;
+
+  for (i = 0; i < result.coins.length; i++) {
+    result.coins[i].numberOfCoins = Math.floor(remainder / result.coins[i].val);
+    remainder = remainder % result.coins[i].val;
+  }
+
+  return result;
+}
+
+console.log(calcChangeByInputs(298, 1274));
