@@ -97,7 +97,6 @@ function calcChangeByInputs(total, pay) {
   //合計枚数を出す
   result.totalOfCoins = result.totalOfCoins.reduce((a, b) => a + b, 0);
   if (err.mes.length > 0) {
-    console.log(err.mes);
     return err;
   } else {
     return result;
@@ -129,7 +128,6 @@ function createResult(obj) {
     obj.totalOfCoins +
     "枚</span></p><div>" +
     "</div>";
-  console.log(text);
   return text;
 }
 
@@ -150,13 +148,12 @@ function removeAlreadyHtml() {
 
 function checkEmpty(tgt1, tgt2) {
   if (tgt1 == null || tgt2 == null || tgt1 == "" || tgt2 == "") {
-    const mes = "数字を入力してください";
+    const mes = "金額を入力してください";
     return mes;
   } else {
     return true;
   }
 }
-
 //実行
 window.onload = function () {
   transform_half("half");
@@ -167,13 +164,20 @@ window.onload = function () {
     const total = Number(document.getElementById("total").value);
     const pay = Number(document.getElementById("pay").value);
     const result = calcChangeByInputs(total, pay);
-    console.log(result.bool);
-    if (result.bool == true && checkEmpty(total, pay) == true) {
-      console.log(result);
+    const getResult = checkEmpty(total, pay);
+    if (result.bool == true && getResult == true) {
       insert(createResult(result));
     } else {
-      //エラーメッセージ を出す処理
-      //疲れたので気が向いたら作ります。
+      let pop = [];
+      pop.push(result.mes);
+      pop.push(getResult);
+      //getResultがtrueを受け取った時に消す処理
+      pop = pop.filter((e) => {
+        if (e !== true) {
+          return e;
+        }
+      });
+      alert(pop);
     }
   });
 };
