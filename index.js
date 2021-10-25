@@ -145,7 +145,7 @@ function removeAlreadyHtml() {
     parent.removeChild(inner);
   }
 }
-
+//値が入っているか確認
 function checkEmpty(tgt1, tgt2) {
   if (tgt1 == null || tgt2 == null || tgt1 == "" || tgt2 == "") {
     const mes = "金額を入力してください";
