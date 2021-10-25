@@ -30,6 +30,21 @@ function calcChangeByInputs(total, pay) {
     totalOfCoins: [],
     coins: [
       {
+        name: "10000円",
+        val: 10000,
+        numberOfCoins: 0,
+      },
+      {
+        name: "5000円",
+        val: 5000,
+        numberOfCoins: 0,
+      },
+      {
+        name: "1000円",
+        val: 1000,
+        numberOfCoins: 0,
+      },
+      {
         name: "500円",
         val: 500,
         numberOfCoins: 0,
@@ -96,24 +111,25 @@ function createResult(obj) {
     return e.numberOfCoins > 0;
   });
   //filteredのテキストの作成
-  const coins = filtered.map((e) => {
-    return "<p>" + e.name + ": <span>" + e.numberOfCoins + "枚</span>";
+  let coins = filtered.map((e) => {
+    return "<li>" + e.name + ":<span>" + e.numberOfCoins + "枚</span></li>";
   });
+  // coins = coins.join("");
 
   let text =
-    "<div id='result-inner'>" +
+    "<div id='result-inner' class='result-inner'>" +
     "<h3>結果</h3>" +
-    "<p>お釣り: <span>" +
+    "<ul class='coins'>" +
+    coins.join("") +
+    "</ul>" +
+    "<div><p>お釣り: <span>" +
     obj.change +
-    "円</span>" +
-    "<div class='coins'>" +
-    coins +
-    "</p></div>" +
+    "円</span></p>" +
     "<p>合計: <span>" +
     obj.totalOfCoins +
-    "枚</span></p>" +
-    "<div>";
-
+    "枚</span></p><div>" +
+    "</div>";
+  console.log(text);
   return text;
 }
 
@@ -153,6 +169,7 @@ window.onload = function () {
     const result = calcChangeByInputs(total, pay);
     console.log(result.bool);
     if (result.bool == true && checkEmpty(total, pay) == true) {
+      console.log(result);
       insert(createResult(result));
     } else {
       //エラーメッセージ を出す処理

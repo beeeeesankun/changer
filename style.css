@@ -6,6 +6,9 @@ body {
   color: #333;
   font-size: 1.8rem;
 }
+h3 {
+  margin-top: 0;
+}
 
 .wrap {
   width: clamp(30rem, 50%, 60rem);
@@ -29,4 +32,28 @@ body {
 
 .result {
   background: #fff;
+}
+.result-inner {
+  padding: 6rem 4rem;
+  text-align: center;
+}
+.coins {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.coins li {
+  width: 40%;
+}
+.coins + div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.coins + div p:first-child {
+  margin: 0 1rem 0 0;
 }
